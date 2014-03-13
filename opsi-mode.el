@@ -55,52 +55,53 @@
 ))
 
 (setq opsi-constants '(
-"ScriptPath" "Scriptpath" "scriptpath"
-"ScriptDrive" "Scriptdrive" "scriptdrive"
+"AllUsersProfileDir" "Allusersprofiledir" "allusersprofiledir"
+"CurrentDesktopDir" "Currentdesktopdir" "currentdesktopdir"
+"CurrentProfileDir" "Currentprofiledir" "currentprofiledir"
 "ProgramFiles32Dir" "Programfiles32dir" "programfiles32dir"
 "ProgramFiles64Dir" "Programfiles64dir" "programfiles64dir"
 "ProgramFilesDir" "Programfilesdir" "programfilesdir"
-"CurrentProfileDir" "Currentprofiledir" "currentprofiledir"
-"CurrentDesktopDir" "Currentdesktopdir" "currentdesktopdir"
-"AllUsersProfileDir" "Allusersprofiledir" "allusersprofiledir"
+"ScriptDrive" "Scriptdrive" "scriptdrive"
+"ScriptPath" "Scriptpath" "scriptpath"
 ))
 
 (setq opsi-functions '(
-"SetLogLevel" "Setloglevel" "setloglevel"
-"ExitOnError" "Exitonerror" "exitonerror"
-"ScriptErrorMessages" "Scripterrormessages" "scripterrormessages"
-"TraceMode" "Tracemode" "tracemode"
-"StayOnTop" "Stayontop" "stayontop"
 "Comment" "comment"
-"Message" "message"
-"ShowBitmap" "Showbitmap" "showbitmap"
-"KillTask" "Killtask" "killtask"
-"SleepSeconds" "Sleepseconds" "sleepseconds"
-"Set" "set"
-"DefVar" "Defvar" "defvar"
 "DefStringList" "Defstringlist" "defstringlist"
-"If" "if"
-"Or" "or"
-"Not" "not"
-"EndIf" "Endif" "endif"
+"DefVar" "Defvar" "defvar"
 "Else" "else"
-"For" "for"
-"In" "in"
-"isFatalError" "IsFatalError" "Isfatalerror" "isfatalerror"
-"Include_Insert" "Include_Insert" "Include_insert"
-"Include_Append" "Include_Append" "Include_append"
-"Sub" "sub"
-"LogError" "Logerror" "logerror"
-"IsFatalError" "Isfatalerror" "isfatalerror"
-"HasMinimumSpace" "Hasminimumspace" "hasminimumspace"
-"GetReturnListFromSection" "getReturnListFromSection" "Getreturnlistfromsection" "getreturnlistfromsection"
-"GetProductProperty" "getProductProperty" "Getproductproperty" "getproductproperty"
-"GetMsVersionInfo" "getMsVersionInfo" "Getmsversioninfo" "getmsversioninfo"
-"GetLastExitCode" "getLastExitCode" "Getlastexitcode" "getlastexitcode"
-"GetSystemType" "GetSystemType" "Getsystemtype" "getsystemtype"
-"TakeString" "takeString" "Takestring" "takestring"
-"SplitString" "splitString" "Splitstring" "splitstring"
+"EndIf" "Endif" "endif"
+"ExitOnError" "Exitonerror" "exitonerror"
 "ExitWindows" "ExitWindows" "Exitwindows" "exitwindows"
+"For" "for"
+"GetLastExitCode" "getLastExitCode" "Getlastexitcode" "getlastexitcode"
+"GetMsVersionInfo" "getMsVersionInfo" "Getmsversioninfo" "getmsversioninfo"
+"GetProductProperty" "getProductProperty" "Getproductproperty" "getproductproperty"
+"GetReturnListFromSection" "getReturnListFromSection" "Getreturnlistfromsection" "getreturnlistfromsection"
+"GetSystemType" "GetSystemType" "Getsystemtype" "getsystemtype"
+"HasMinimumSpace" "Hasminimumspace" "hasminimumspace"
+"If" "if"
+"In" "in"
+"Include_Append" "Include_Append" "Include_append"
+"Include_Insert" "Include_Insert" "Include_insert"
+"IsFatalError" "Isfatalerror" "isfatalerror"
+"KillTask" "Killtask" "killtask"
+"LogError" "Logerror" "logerror"
+"Message" "message"
+"Not" "not"
+"Or" "or"
+"ScriptErrorMessages" "Scripterrormessages" "scripterrormessages"
+"Set" "set"
+"SetLogLevel" "Setloglevel" "setloglevel"
+"ShowBitmap" "Showbitmap" "showbitmap"
+"SleepSeconds" "Sleepseconds" "sleepseconds"
+"SplitString" "splitString" "Splitstring" "splitstring"
+"StayOnTop" "Stayontop" "stayontop"
+"Sub" "sub"
+"TakeString" "takeString" "Takestring" "takestring"
+"TraceMode" "Tracemode" "tracemode"
+"isFatalError" "IsFatalError" "Isfatalerror" "isfatalerror"
+"logError" "LogError" "logerror" "Logerror"
 ))
 
 (setq opsi-functions-args '(
@@ -374,6 +375,8 @@ For detail, see `comment-dwim'."
 				  (replace-regexp-in-string " " ""
 							    (shell-command-to-string "grep version: OPSI/control|cut -d: -f2|tail -n 1"))))
   (message (concat "id:" opsi-product-id " major-version:" opsi-product-major-version " minor-version:" opsi-product-minor-version))
+  (setq mode-name (concat "OPSI["opsi-product-id"_"opsi-product-major-version"-"opsi-product-minor-version"]"))
+
 )
 
 (defun opsi-major-update ()
@@ -457,7 +460,7 @@ For detail, see `comment-dwim'."
   ;; Register our indentation function
   (set (make-local-variable 'indent-line-function) 'opsi-indent-line)
   (setq major-mode 'opsi-mode)
-  (setq mode-name "OPSI")
+  (opsi-status)
   (run-hooks 'opsi-mode-hook))
 
 (provide 'opsi-mode)
