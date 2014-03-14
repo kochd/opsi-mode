@@ -635,8 +635,5 @@ For detail, see `comment-dwim'."
   (run-hooks 'opsi-mode-hook))
 
 (provide 'opsi-mode)
-(provide 'opsi-mode-map)
-
-
 
 ;;; opsi-mode.el ends here
