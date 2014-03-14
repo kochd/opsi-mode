@@ -388,7 +388,7 @@ For detail, see `comment-dwim'."
   (setq opsi-cd-proddir-error nil)
   (setq init-dir (concat(buffer-file-name)"/../"))
   (cd init-dir)
-  (while (and(not(file-exists-p "OPSI/control")) (not(string-equal (shell-command-to-string "pwd") "/\n")))
+  (while (and(not(file-exists-p "OPSI/control")) (not(string-equal (pwd) "Directory /")))
     (progn
       (message "Searching OPSI/control")
       (cd ".."))
