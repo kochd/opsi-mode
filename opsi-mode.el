@@ -385,81 +385,87 @@ For detail, see `comment-dwim'."
 ;; | Functions
 ;; `----
 (defun opsi-cd-proddir()
+  (setq opsi-cd-proddir-error nil)
   (setq init-dir (concat(buffer-file-name)"/../"))
   (cd init-dir)
-  (while (not(file-exists-p "OPSI/control"))
+  (while (and(not(file-exists-p "OPSI/control")) (not(string-equal (shell-command-to-string "pwd") "/\n")))
     (progn
       (message "Searching OPSI/control")
-      (cd "..")))
-  (message "Found OPSI/control"))
+      (cd ".."))
+      (if (file-exists-p "OPSI/control")
+	  (message "Found OPSI/control")
+	(progn
+	  (setq opsi-cd-proddir-error t)
+	  (message "Cannot find OPSI/control")))))
 
 (defun opsi-find-control()
   (interactive)
   (opsi-cd-proddir)
-  (find-file "OPSI/control"))
-
-(defun opsi-find-any (arg)
-  (opsi-cd-proddir)
-  (opsi-get-files)
-  (if (string= (concat opsi-file- arg) "")
-  (message (concat "There is no "arg "Script")
-  (find-file (concat "CLIENT_DATA/" opsi-file-setup )))))
+  (if opsi-cd-proddir-error nil
+    (find-file "OPSI/control")))
 
 (defun opsi-find-setup()
   (interactive)
   (opsi-cd-proddir)
-  (opsi-get-files)
-  (if (string= opsi-file-setup "")
-  (message "There is no setupScript")
-  (find-file (concat "CLIENT_DATA/" opsi-file-setup ))))
+  (if opsi-cd-proddir-error nil
+    (opsi-get-files)
+    (if (string= opsi-file-setup "")
+	(message "There is no setupScript")
+      (find-file (concat "CLIENT_DATA/" opsi-file-setup )))))
 
 (defun opsi-find-uninstall()
   (interactive)
   (opsi-cd-proddir)
-  (opsi-get-files)
-  (if (string= opsi-file-uninstall "")
-  (message "There is no uninstallScript")
-  (find-file (concat "CLIENT_DATA/" opsi-file-uninstall ))))
+  (if opsi-cd-proddir-error nil
+    (opsi-get-files)
+    (if (string= opsi-file-uninstall "")
+	(message "There is no uninstallScript")
+      (find-file (concat "CLIENT_DATA/" opsi-file-uninstall )))))
 
 (defun opsi-find-update()
   (interactive)
   (opsi-cd-proddir)
-  (opsi-get-files)
-  (if (string= opsi-file-update "")
-  (message "There is no updateScript")
-  (find-file (concat "CLIENT_DATA/" opsi-file-update ))))
+  (if opsi-cd-proddir-error nil
+    (opsi-get-files)
+    (if (string= opsi-file-update "")
+	(message "There is no updateScript")
+      (find-file (concat "CLIENT_DATA/" opsi-file-update )))))
 
 (defun opsi-find-always()
   (interactive)
   (opsi-cd-proddir)
-  (opsi-get-files)
-  (if (string= opsi-file-always "")
-  (message "There is no alwaysScript")
-  (find-file (concat "CLIENT_DATA/" opsi-file-always ))))
+  (if opsi-cd-proddir-error nil
+    (opsi-get-files)
+    (if (string= opsi-file-always "")
+	(message "There is no alwaysScript")
+      (find-file (concat "CLIENT_DATA/" opsi-file-always )))))
 
 (defun opsi-find-once()
   (interactive)
   (opsi-cd-proddir)
-  (opsi-get-files)
-  (if (string= opsi-file-once "")
-  (message "There is no onceScript")
-  (find-file (concat "CLIENT_DATA/" opsi-file-once ))))
+  (if opsi-cd-proddir-error nil
+    (opsi-get-files)
+    (if (string= opsi-file-once "")
+	(message "There is no onceScript")
+      (find-file (concat "CLIENT_DATA/" opsi-file-once )))))
 
 (defun opsi-find-custom()
   (interactive)
   (opsi-cd-proddir)
-  (opsi-get-files)
-  (if (string= opsi-file-custom "")
-  (message "There is no customScript")
-  (find-file (concat "CLIENT_DATA/" opsi-file-custom ))))
+  (if opsi-cd-proddir-error nil
+    (opsi-get-files)
+    (if (string= opsi-file-custom "")
+	(message "There is no customScript")
+      (find-file (concat "CLIENT_DATA/" opsi-file-custom )))))
 
 (defun opsi-find-userlogin()
   (interactive)
   (opsi-cd-proddir)
-  (opsi-get-files)
-  (if (string= opsi-file-userlogin "")
-  (message "There is no userloginScript")
-  (find-file (concat "CLIENT_DATA/" opsi-file-userlogin ))))
+  (if opsi-cd-proddir-error nil
+    (opsi-get-files)
+    (if (string= opsi-file-userlogin "")
+	(message "There is no userloginScript")
+      (find-file (concat "CLIENT_DATA/" opsi-file-userlogin )))))
 
 
 (defun opsi-get-files ()
@@ -470,6 +476,9 @@ For detail, see `comment-dwim'."
   (setq opsi-file-once nil)
   (setq opsi-file-custom nil)
   (setq opsi-file-userlogin nil)
+
+  (opsi-cd-proddir)
+  (if opsi-cd-proddir-error nil
 
   (setq opsi-file-setup
 	(replace-regexp-in-string "\n$" ""
@@ -505,7 +514,7 @@ For detail, see `comment-dwim'."
 	(replace-regexp-in-string "\n$" ""
 				  (replace-regexp-in-string " " ""
 							    (shell-command-to-string "grep userLoginScript: OPSI/control|cut -d: -f2"))))
-)
+))
 
 
 
@@ -515,6 +524,7 @@ For detail, see `comment-dwim'."
   "Test Only!"
   (interactive)
   (opsi-cd-proddir)
+  (if opsi-cd-proddir-error nil
   (setq opsi-product-id
 	(replace-regexp-in-string "\n$" ""
 				  (replace-regexp-in-string " " ""
@@ -530,12 +540,13 @@ For detail, see `comment-dwim'."
   (message (concat "id:" opsi-product-id " major-version:" opsi-product-major-version " minor-version:" opsi-product-minor-version))
   (setq mode-name (concat "OPSI["opsi-product-id"_"opsi-product-major-version"-"opsi-product-minor-version"]"))
 
-)
+))
 
 (defun opsi-major-update ()
   "Test Only!"
   (interactive)
   (opsi-cd-proddir)
+  (if opsi-cd-proddir-error nil
   (opsi-status)
   (setq new-major-version nil)
   (setq new-major-version(read-no-blanks-input (concat "New Version:") opsi-product-major-version))
@@ -543,12 +554,13 @@ For detail, see `comment-dwim'."
   (opsi-cd-proddir)
   (opsi-status)
   (message (concat "New major-version is " opsi-product-major-version))
-)
+))
 
 (defun opsi-minor-update ()
   "Test Only!"
   (interactive)
   (opsi-cd-proddir)
+  (if opsi-cd-proddir-error nil
   (opsi-status)
   (setq new-minor-version nil)
   (setq new-minor-version(read-no-blanks-input (concat "New Version:") opsi-product-minor-version))
@@ -556,12 +568,13 @@ For detail, see `comment-dwim'."
   (opsi-cd-proddir)
   (opsi-status)
   (message (concat "New minor-version is " opsi-product-minor-version))
-)
+))
 
 (defun opsi-makeproductfile ()
   "Test Only!"
   (interactive)
   (opsi-cd-proddir)
+  (if opsi-cd-proddir-error nil
   (opsi-status)
   (if (y-or-n-p (concat "Change Version: " opsi-product-id "_" opsi-product-major-version "-" opsi-product-minor-version "?"))
       (progn
@@ -574,11 +587,13 @@ For detail, see `comment-dwim'."
 )
 )
 )
+)
 
 (defun opsi-install-package ()
   "Test Only!"
   (interactive)
   (opsi-cd-proddir)
+  (if opsi-cd-proddir-error nil
   (opsi-status)
   (if (file-exists-p (concat opsi-product-id "_" opsi-product-major-version "-" opsi-product-minor-version ".opsi"))
       (if (y-or-n-p (concat "Install Package:" opsi-product-id "_" opsi-product-major-version "-" opsi-product-minor-version ".opsi?"))
@@ -586,11 +601,13 @@ For detail, see `comment-dwim'."
 	)
     )
   )
+  )
 
 (defun opsi-install-package-on-all-depots ()
   "Test Only!"
   (interactive)
   (opsi-cd-proddir)
+  (if opsi-cd-proddir-error nil
   (opsi-status)
   (if (file-exists-p (concat opsi-product-id "_" opsi-product-major-version "-" opsi-product-minor-version ".opsi"))
       (if (y-or-n-p (concat "Install Package on all depots:" opsi-product-id "_" opsi-product-major-version "-" opsi-product-minor-version ".opsi?"))
@@ -598,6 +615,7 @@ For detail, see `comment-dwim'."
 	)
     )
   )
+)
 
 ;; ,----
 ;; | Mode Definition
