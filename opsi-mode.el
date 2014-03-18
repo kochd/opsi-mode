@@ -107,13 +107,11 @@
 "ScriptPath" "Scriptpath" "scriptpath"
 "System" "system"
 "SystemRoot" "Systemroot" "systemroot"
+"SystemDrive" "Systemdrive" "systemdrive"
 "UserProfileDir" "Userprofiledir" "userprofiledir"
 "Username" "username"
 "WinstDir" "Winstdir" "winstdir"
 "WinstVersion" "Winstversion" "winstversion"
-"opsiServer" "Opsiserver" "opsiserver"
-
-
 ))
 
 (setq opsi-functions '(
@@ -127,6 +125,7 @@
 "DefStringList" "Defstringlist" "defstringlist"
 "DefVar" "Defvar" "defvar"
 "Else" "else"
+"emptylist" "EmptyList" "Emptylist"
 "EndIf" "Endif" "endif"
 "EnvVar" "Envvar" "envvar"
 "ExitOnError" "Exitonerror" "exitonerror"
@@ -164,14 +163,14 @@
 "IconizeWinst" "Iconizewinst" "iconizewinst"
 "If" "if"
 "In" "in"
-"Include_Append" "Include_Append" "Include_append"
-"Include_Insert" "Include_Insert" "Include_insert"
+"Include_Append" "Include_Append" "Include_append" "include_append"
+"Include_Insert" "Include_Insert" "Include_insert" "include_insert"
 "IniVar" "Inivar" "inivar"
 "IsFatalError" "Isfatalerror" "isfatalerror"
 "KillTask" "Killtask" "killtask"
 "LineBeginning_Existsin" "linebeginning_ExistsIn" "LineBeginning_ExistsIn"
 "LineExistsIn" "Lineexistsin" "lineexistsin"
-"LogError" "logerror" "Logerror"
+"LogError" "logerror" "Logerror" "logError"
 "LogWarning" "Logwarning" "logwarning"
 "Message" "message"
 "NOT" "Not" "not"
@@ -183,6 +182,7 @@
 "RestoreWinst" "Restorewinst" "restorewinst"
 "ScriptErrorMessages" "Scripterrormessages" "scripterrormessages"
 "Set" "set"
+"SetConfidential" "Setconfidential" "setconfidential"
 "SetLogLevel" "Setloglevel" "setloglevel"
 "SetSkinDirectory" "Setskindirectory" "setskindirectory"
 "ShowBitmap" "Showbitmap" "showbitmap"
@@ -228,12 +228,15 @@
 "getValue" "Getvalue" "getvalue"
 "getValueBySeparator" "Getvaluebyseparator" "getvaluebyseparator"
 "includelog" "Includelog"
+"isFatalError" "Isfatalerror" "isfatalerror" "IsFatalError"
 "isLoginScript" "Isloginscript" "isloginscript" "IsLoginScript"
 "isNumber" "Isnumber" "isnumber" "IsNumber"
+"isSuccess" "Issuccess" "IsSuccess"
 "loadTextFile" "Loadtextfile" "loadtextfile" "LoadTextFile"
 "loadUnicodeTextFile" "Loadunicodetextfile" "loadunicodetextfile" "LoadUnicodeTextFile"
 "lower" "Lower"
 "opsiLicenseManagementEnabled" "Opsilicensemanagementenabled" "opsilicensemanagementenabled" "OpsiLicenseManagementEnabled"
+"opsiServer" "Opsiserver" "opsiserver"
 "readVersionFromProfile" "Readversionfromprofile" "readversionfromprofile"
 "requiredWinstVersion" "Requiredwinstversion" "requiredwinstversion" "RequiredWinstVersion"
 "retrieveSection" "Retrievesection"
@@ -254,13 +257,17 @@
 ))
 
 (setq opsi-functions-args '(
-"/ImmediateReboot" "/Immediatereboot" "/immediatereboot"
-"/Reboot" "/Reboot" "/reboot"
-"/ShutdownWanted" "/Shutdownwanted" "/shutdownwanted"
+"32bit" "32Bit"
+"64bit" "64Bit"
 "ImmediateLogout" "Immediatelogout" "immediatelogout"
+"ImmediateReboot" "Immediatereboot" "immediatereboot"
+"Reboot" "Reboot" "reboot"
 "RebootWanted" "Rebootwanted" "rebootwanted"
+"ShutdownWanted" "Shutdownwanted" "shutdownwanted"
+"SysNative" "Sysnative" "sysnative"
 "Timeout" "timeout"
 "WaitForProcessEnding" "Waitforprocessending" "waitforprocessending"
+"TimeOutSeconds" "Timeoutseconds" "timeoutseconds"
 ))
 
 ;; []
