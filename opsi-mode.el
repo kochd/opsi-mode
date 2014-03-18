@@ -486,46 +486,40 @@ For detail, see `comment-dwim'."
 
   (opsi-cd-proddir)
   (if opsi-cd-proddir-error nil
+    (setq opsi-file-setup
+	  (replace-regexp-in-string "\n$" ""
+				    (replace-regexp-in-string " " ""
+							      (shell-command-to-string "grep setupScript: OPSI/control|cut -d: -f2"))))
 
-  (setq opsi-file-setup
-	(replace-regexp-in-string "\n$" ""
-				  (replace-regexp-in-string " " ""
-							    (shell-command-to-string "grep setupScript: OPSI/control|cut -d: -f2"))))
+    (setq opsi-file-uninstall
+	  (replace-regexp-in-string "\n$" ""
+				    (replace-regexp-in-string " " ""
+							      (shell-command-to-string "grep uninstallScript: OPSI/control|cut -d: -f2"))))
 
-  (setq opsi-file-uninstall
-	(replace-regexp-in-string "\n$" ""
-				  (replace-regexp-in-string " " ""
-							    (shell-command-to-string "grep uninstallScript: OPSI/control|cut -d: -f2"))))
+    (setq opsi-file-update
+	  (replace-regexp-in-string "\n$" ""
+				    (replace-regexp-in-string " " ""
+							      (shell-command-to-string "grep updateScript: OPSI/control|cut -d: -f2"))))
 
-(setq opsi-file-update
-	(replace-regexp-in-string "\n$" ""
-				  (replace-regexp-in-string " " ""
-							    (shell-command-to-string "grep updateScript: OPSI/control|cut -d: -f2"))))
+    (setq opsi-file-always
+	  (replace-regexp-in-string "\n$" ""
+				    (replace-regexp-in-string " " ""
+							      (shell-command-to-string "grep alwaysScript: OPSI/control|cut -d: -f2"))))
 
-  (setq opsi-file-always
-	(replace-regexp-in-string "\n$" ""
-				  (replace-regexp-in-string " " ""
-							    (shell-command-to-string "grep alwaysScript: OPSI/control|cut -d: -f2"))))
+    (setq opsi-file-once
+	  (replace-regexp-in-string "\n$" ""
+				    (replace-regexp-in-string " " ""
+							      (shell-command-to-string "grep onceScript: OPSI/control|cut -d: -f2"))))
 
-  (setq opsi-file-once
-	(replace-regexp-in-string "\n$" ""
-				  (replace-regexp-in-string " " ""
-							    (shell-command-to-string "grep onceScript: OPSI/control|cut -d: -f2"))))
+    (setq opsi-file-custom
+	  (replace-regexp-in-string "\n$" ""
+				    (replace-regexp-in-string " " ""
+							      (shell-command-to-string "grep customScript: OPSI/control|cut -d: -f2"))))
 
-  (setq opsi-file-custom
-	(replace-regexp-in-string "\n$" ""
-				  (replace-regexp-in-string " " ""
-							    (shell-command-to-string "grep customScript: OPSI/control|cut -d: -f2"))))
-
-  (setq opsi-file-userlogin
-	(replace-regexp-in-string "\n$" ""
-				  (replace-regexp-in-string " " ""
-							    (shell-command-to-string "grep userLoginScript: OPSI/control|cut -d: -f2"))))
-))
-
-
-
-
+    (setq opsi-file-userlogin
+	  (replace-regexp-in-string "\n$" ""
+				    (replace-regexp-in-string " " ""
+							      (shell-command-to-string "grep userLoginScript: OPSI/control|cut -d: -f2"))))))
 
 (defun opsi-status ()
   "Test Only!"
@@ -545,9 +539,7 @@ For detail, see `comment-dwim'."
 				  (replace-regexp-in-string " " ""
 							    (shell-command-to-string "grep version: OPSI/control|cut -d: -f2|tail -n 1"))))
   (message (concat "id:" opsi-product-id " major-version:" opsi-product-major-version " minor-version:" opsi-product-minor-version))
-  (setq mode-name (concat "OPSI["opsi-product-id"_"opsi-product-major-version"-"opsi-product-minor-version"]"))
-
-))
+  (setq mode-name (concat "OPSI["opsi-product-id"_"opsi-product-major-version"-"opsi-product-minor-version"]"))))
 
 (defun opsi-major-update ()
   "Test Only!"
@@ -560,8 +552,7 @@ For detail, see `comment-dwim'."
   (shell-command (concat "sed -i 's/version: " opsi-product-major-version "/version: " new-major-version "/' OPSI/control"))
   (opsi-cd-proddir)
   (opsi-status)
-  (message (concat "New major-version is " opsi-product-major-version))
-))
+  (message (concat "New major-version is " opsi-product-major-version))))
 
 (defun opsi-minor-update ()
   "Test Only!"
@@ -574,8 +565,7 @@ For detail, see `comment-dwim'."
   (shell-command (concat "sed -i 's/version: " opsi-product-minor-version "/version: " new-minor-version "/' OPSI/control"))
   (opsi-cd-proddir)
   (opsi-status)
-  (message (concat "New minor-version is " opsi-product-minor-version))
-))
+  (message (concat "New minor-version is " opsi-product-minor-version))))
 
 (defun opsi-makeproductfile ()
   "Test Only!"
@@ -590,11 +580,7 @@ For detail, see `comment-dwim'."
 	)
     )
   (if (y-or-n-p (concat "Make Product: " opsi-product-id "_" opsi-product-major-version "-" opsi-product-minor-version "?"))
-      (shell-command (concat "opsi-makeproductfile -q" )
-)
-)
-)
-)
+      (shell-command (concat "opsi-makeproductfile -q" )))))
 
 (defun opsi-install-package ()
   "Test Only!"
@@ -604,11 +590,7 @@ For detail, see `comment-dwim'."
   (opsi-status)
   (if (file-exists-p (concat opsi-product-id "_" opsi-product-major-version "-" opsi-product-minor-version ".opsi"))
       (if (y-or-n-p (concat "Install Package:" opsi-product-id "_" opsi-product-major-version "-" opsi-product-minor-version ".opsi?"))
-	  (eshell-command (concat "opsi-package-manager -q -i " opsi-product-id "_" opsi-product-major-version "-" opsi-product-minor-version ".opsi && echo Installation of " opsi-product-id " completed without error" ))
-	)
-    )
-  )
-  )
+	  (eshell-command (concat "opsi-package-manager -q -i " opsi-product-id "_" opsi-product-major-version "-" opsi-product-minor-version ".opsi && echo Installation of " opsi-product-id " completed without error" ))))))
 
 (defun opsi-install-package-on-all-depots ()
   "Test Only!"
@@ -618,11 +600,7 @@ For detail, see `comment-dwim'."
   (opsi-status)
   (if (file-exists-p (concat opsi-product-id "_" opsi-product-major-version "-" opsi-product-minor-version ".opsi"))
       (if (y-or-n-p (concat "Install Package on all depots:" opsi-product-id "_" opsi-product-major-version "-" opsi-product-minor-version ".opsi?"))
-	  (eshell-command (concat "opsi-package-manager -q -dALL -i " opsi-product-id "_" opsi-product-major-version "-" opsi-product-minor-version ".opsi && echo Installation of " opsi-product-id " completed without error" ))
-	)
-    )
-  )
-)
+	  (eshell-command (concat "opsi-package-manager -q -dALL -i " opsi-product-id "_" opsi-product-major-version "-" opsi-product-minor-version ".opsi && echo Installation of " opsi-product-id " completed without error" ))))))
 
 ;; ,----
 ;; | Mode Definition
