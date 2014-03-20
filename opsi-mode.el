@@ -68,50 +68,50 @@
 ))
 
 (setq opsi-constants '(
-"AllUsersProfileDir"
-"AppdataDir"
-"CommonAppdataDir"
-"CommonDesktopDir"
-"CommonProfileDir"
-"CommonProgramsDir"
-"CommonStartMenuPath"
-"CommonStartmenuDir"
-"CommonStartupDir"
-"CurrentAppdataDir"
-"CurrentDesktopDir"
-"CurrentProfileDir"
-"CurrentProgramsDir"
-"CurrentSendToDir"
-"CurrentStartmenuDir"
-"CurrentStartupDir"
-"DefaultUserProfileDir"
-"Host"
-"HostID"
-"IPAddress"
-"InstallingProdName"
-"InstallingProdVersion"
-"InstallingProduct"
-"LogFile"
-"OpsiScriptHelperPath"
-"OpsiServicePassword"
-"OpsiServiceURL"
-"OpsiServiceUser"
-"PCName"
-"ProfileDir"
-"ProgramFiles32Dir"
-"ProgramFiles64Dir"
-"ProgramFilesDir"
-"ProgramFilesSysnativeDir"
-"ScriptDir"
-"ScriptDrive"
-"ScriptPath"
-"System"
-"SystemRoot"
-"SystemDrive"
-"UserProfileDir"
-"Username"
-"WinstDir"
-"WinstVersion"
+"%AllUsersProfileDir%"
+"%AppdataDir%"
+"%CommonAppdataDir%"
+"%CommonDesktopDir%"
+"%CommonProfileDir%"
+"%CommonProgramsDir%"
+"%CommonStartMenuPath%"
+"%CommonStartmenuDir%"
+"%CommonStartupDir%"
+"%CurrentAppdataDir%"
+"%CurrentDesktopDir%"
+"%CurrentProfileDir%"
+"%CurrentProgramsDir%"
+"%CurrentSendToDir%"
+"%CurrentStartmenuDir%"
+"%CurrentStartupDir%"
+"%DefaultUserProfileDir%"
+"%Host%"
+"%HostID%"
+"%IPAddress%"
+"%InstallingProdName%"
+"%InstallingProdVersion%"
+"%InstallingProduct%"
+"%LogFile%"
+"%OpsiScriptHelperPath%"
+"%OpsiServicePassword%"
+"%OpsiServiceURL%"
+"%OpsiServiceUser%"
+"%PCName%"
+"%ProfileDir%"
+"%ProgramFiles32Dir%"
+"%ProgramFiles64Dir%"
+"%ProgramFilesDir%"
+"%ProgramFilesSysnativeDir%"
+"%ScriptDir%"
+"%ScriptDrive%"
+"%ScriptPath%"
+"%System%"
+"%SystemRoot%"
+"%SystemDrive%"
+"%UserProfileDir%"
+"%Username%"
+"%WinstDir%"
+"%WinstVersion%"
 ))
 
 (setq opsi-functions '(
@@ -277,7 +277,7 @@
 (setq opsi-sections-regexp (concat "\\(\\[\\|\\)" (regexp-opt opsi-sections ) "_\\(_\\|\\w\\)*\\(\\]\\|\\)"))
 
 ;; %
-(setq opsi-constants-regexp (concat "%" (regexp-opt opsi-constants) "%"))
+(setq opsi-constants-regexp (regexp-opt opsi-constants))
 
 ;; $
 (setq opsi-variables-regexp "\\<\$\\(\\w\\|\_\\|\-\\)*\$\\>")
@@ -327,6 +327,12 @@
 
 	opsi-mode-syntax-table)
   "Syntax table for opsi-mode")
+
+;; ,----
+;; | auto-complete
+;; `----
+(defvar ac-source-opsi
+  '((candidates . (append opsi-parts opsi-sections opsi-constants opsi-functions))))
 
 ;; ,----
 ;; | Comment-dwim
@@ -386,7 +392,6 @@ For detail, see `comment-dwim'."
 (define-key opsi-mode-map (kbd "<backtab>") 'indent-relative)
 (define-key opsi-mode-map [remap comment-dwim] 'opsi-comment-dwim)
 (define-key opsi-mode-map (kbd "<f8>") 'opsi-makeproductfile)
-
 
 ;; ,----
 ;; | Functions
