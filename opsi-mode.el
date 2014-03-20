@@ -2,12 +2,12 @@
 
 ;; Author: Daniel Koch <koch@triple6.org>
 ;; Created: 07 Mar 2014
-;; Keywords: OPSI major-mode
-;; Version: 0.7
+;; Keywords: OPSI major-mode auto-complete
+;; Version: 0.8
 ;; Description:
 ;; This is a Major-Mode for Editing Winst/OPSI files
 ;; as involved in the software deployment software OPSI by uib
-;; See opsi.org for details
+;; See http://opsi.org for details
 
 ;; Copyright (C) 2014 Daniel Koch <koch@triple6.org>
 
@@ -25,6 +25,22 @@
 ;; License along with this program; if not, write to the Free
 ;; Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,
 ;; MA 02111-1307 USA
+
+
+;This mode provides:
+;	indentation
+;	syntax hightlighting
+;	auto-complete source
+;	fuction for finding related files
+
+
+; How to integrate auto-complete support?
+; add to your .emacs
+;
+;; (add-hook 'opsi-mode-hook
+;;	  (lambda ()
+;;	    (setq ac-sources '(ac-source-opsi ac-source-words-in-same-mode-buffers))))
+
 
 (defvar opsi-mode-hook nil)
 (defvar opsi-mode-map
